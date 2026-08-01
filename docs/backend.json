@@ -1,0 +1,121 @@
+
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "User preferences and hardware connectivity status.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "hasGreenBox": {
+          "type": "boolean",
+          "description": "Whether the external Industrial Precision Green Box is connected."
+        },
+        "language": {
+          "type": "string",
+          "enum": ["en", "ar"]
+        }
+      },
+      "required": ["userId"]
+    },
+    "SensorReading": {
+      "title": "Sensor Reading",
+      "description": "A single telemetry data point from an industrial sensor.",
+      "type": "object",
+      "properties": {
+        "sensorId": {
+          "type": "string",
+          "description": "Identifier for the sensor."
+        },
+        "value": {
+          "type": "number",
+          "description": "The numeric value recorded (Engine Load %)."
+        },
+        "rpm": {
+          "type": "number"
+        },
+        "temp": {
+          "type": "number",
+          "description": "Coolant temperature in Celsius."
+        },
+        "ltft": {
+          "type": "number",
+          "description": "Long Term Fuel Trim percentage."
+        },
+        "timestamp": {
+          "type": "number",
+          "description": "Unix timestamp of the reading."
+        },
+        "machineId": {
+          "type": "string",
+          "description": "Machine associated with this reading."
+        }
+      },
+      "required": [
+        "sensorId",
+        "value",
+        "timestamp"
+      ]
+    },
+    "MaintenanceReport": {
+      "title": "Maintenance Report",
+      "description": "Metadata for a technical document or maintenance log.",
+      "type": "object",
+      "properties": {
+        "reportId": {
+          "type": "string"
+        },
+        "fileName": {
+          "type": "string"
+        },
+        "fileType": {
+          "type": "string"
+        },
+        "fileSize": {
+          "type": "number"
+        },
+        "uploadedAt": {
+          "type": "number"
+        },
+        "machineId": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "Manual",
+            "Inspection",
+            "Repair Log",
+            "Certification"
+          ]
+        }
+      },
+      "required": [
+        "fileName",
+        "uploadedAt",
+        "machineId"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "google.com"
+    ]
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User settings and hardware permissions."
+    },
+    "/readings/{readingId}": {
+      "schema": "SensorReading",
+      "description": "Collection of real-time and historical sensor telemetry."
+    },
+    "/reports/{reportId}": {
+      "schema": "MaintenanceReport",
+      "description": "Registry of uploaded maintenance documents and manuals."
+    }
+  }
+}

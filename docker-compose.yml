@@ -1,0 +1,68 @@
+# Auto-generated from scenario.toml
+# Run from the repository root with:
+# docker compose --env-file .env -f /workspaces/Autex-car-bench-agent-v2/docker-compose.yml up --abort-on-container-exit
+
+services:
+  evaluator:
+    image: ghcr.io/car-bench/car-bench-evaluator:latest
+    platform: linux/amd64
+    command: ["--host", "0.0.0.0", "--port", "9009", "--card-url", "http://evaluator:9009"]
+    environment:
+      - PYTHONUNBUFFERED=1
+      - GEMINI_API_KEY=${GEMINI_API_KEY:?Set GEMINI_API_KEY}
+      - LOGURU_LEVEL=${LOGURU_LEVEL:-INFO}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9009/.well-known/agent-card.json"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 30s
+    depends_on:
+      agent-under-test:
+        condition: service_healthy
+    networks:
+      - agent-network
+
+  agent-under-test:
+    image: ghcr.io/mohmmedmostafagedo-ai/autex-car-bench-agent-v2@sha256:a52aec44ce071441732a7412e6fe08fa5b16ffe5ba2806d35e1b18dec2593d2f
+    platform: linux/amd64
+    command: ["--host", "0.0.0.0", "--port", "9009", "--card-url", "http://agent-under-test:9009"]
+    environment:
+      - PYTHONUNBUFFERED=1
+      - AGENT_LLM=${AGENT_LLM:?Set AGENT_LLM}
+      - AGENT_API_BASE=${AGENT_API_BASE:-}
+      - AGENT_API_KEY=${AGENT_API_KEY:?Set AGENT_API_KEY}
+      - AGENT_TEMPERATURE=${AGENT_TEMPERATURE:-0}
+      - AGENT_REASONING_EFFORT=${AGENT_REASONING_EFFORT:-}
+      - AGENT_THINKING_BUDGET_TOKENS=${AGENT_THINKING_BUDGET_TOKENS:-8000}
+      - AGENT_API_STYLE=${AGENT_API_STYLE:-}
+      - LOGURU_LEVEL=${LOGURU_LEVEL:-INFO}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9009/.well-known/agent-card.json"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 30s
+    networks:
+      - agent-network
+
+  a2a-client:
+    build:
+      context: ../car-bench-ijcai
+      dockerfile: src/agentbeats/Dockerfile.a2a-client
+    platform: linux/amd64
+    volumes:
+      - ./a2a-scenario.toml:/home/carbench/app/scenario.toml:ro
+      - ../car-bench-ijcai/output:/home/carbench/app/output
+    command: ["scenario.toml", "output"]
+    depends_on:
+      evaluator:
+        condition: service_healthy
+      agent-under-test:
+        condition: service_healthy
+    networks:
+      - agent-network
+
+networks:
+  agent-network:
+    driver: bridge

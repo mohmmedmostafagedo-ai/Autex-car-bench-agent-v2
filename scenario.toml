@@ -1,0 +1,40 @@
+[evaluator]
+image = "ghcr.io/car-bench/car-bench-evaluator:latest"
+
+[evaluator.env]
+GEMINI_API_KEY = "${GEMINI_API_KEY:?Set GEMINI_API_KEY}"
+LOGURU_LEVEL = "${LOGURU_LEVEL:-INFO}"
+
+[agent_under_test]
+
+# Replace with the published digest after pushing to GHCR, e.g.:
+#   docker buildx build --platform linux/amd64 -t ghcr.io/your-org/autex-carbench-agent:latest .
+#   docker push ghcr.io/your-org/autex-carbench-agent:latest
+#   docker inspect --format='{{index .RepoDigests 0}}' ghcr.io/your-org/autex-carbench-agent:latest
+image = "ghcr.io/mohmmedmostafagedo-ai/autex-car-bench-agent-v2@sha256:a52aec44ce071441732a7412e6fe08fa5b16ffe5ba2806d35e1b18dec2593d2f"
+
+
+[agent_under_test.env]
+
+# Provider-agnostic model selection. No model name, provider route, deployment
+# name, API base, service tier, or reasoning-effort value is hard-coded in the
+# image — organizers may point AGENT_LLM/AGENT_API_BASE/AGENT_API_KEY at any
+# hosted deployment and the agent will route accordingly. See
+# src/lib/car-bench-agent-adapter.ts for the full resolution logic.
+
+AGENT_LLM = "${AGENT_LLM:?Set AGENT_LLM}"
+AGENT_API_BASE = "${AGENT_API_BASE:-}"
+AGENT_API_KEY = "${AGENT_API_KEY:?Set AGENT_API_KEY}"
+AGENT_TEMPERATURE = "${AGENT_TEMPERATURE:-0}"
+AGENT_REASONING_EFFORT = "${AGENT_REASONING_EFFORT:-}"
+AGENT_THINKING_BUDGET_TOKENS = "${AGENT_THINKING_BUDGET_TOKENS:-8000}"
+AGENT_API_STYLE = "${AGENT_API_STYLE:-}"
+LOGURU_LEVEL = "${LOGURU_LEVEL:-INFO}"
+
+[config]
+num_trials = 1
+task_split = "train"   # or "test" — not "hidden"
+tasks_base_num_tasks = 1
+tasks_hallucination_num_tasks = 1
+tasks_disambiguation_num_tasks = 1
+max_steps = 50

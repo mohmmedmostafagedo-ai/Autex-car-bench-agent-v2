@@ -1,0 +1,4 @@
+a2a-sdk>=1.0
+starlette
+uvicorn
+sse_starlette

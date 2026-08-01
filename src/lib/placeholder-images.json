@@ -1,0 +1,22 @@
+{
+  "placeholderImages": [
+    {
+      "id": "industrial-control",
+      "description": "Industrial control room dashboard",
+      "imageUrl": "https://picsum.photos/seed/factory1/1200/800",
+      "imageHint": "industrial control"
+    },
+    {
+      "id": "sensor-data",
+      "description": "Complex sensor data visualization",
+      "imageUrl": "https://picsum.photos/seed/data2/800/600",
+      "imageHint": "sensor data"
+    },
+    {
+      "id": "autex-logo",
+      "description": "Autex minimalist automotive logo",
+      "imageUrl": "https://picsum.photos/seed/autex-logo/200/200",
+      "imageHint": "automotive logo"
+    }
+  ]
+}

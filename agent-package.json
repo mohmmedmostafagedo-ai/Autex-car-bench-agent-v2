@@ -1,0 +1,10 @@
+{
+  "name": "autex-carbench-agent",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CAR-bench Track 2 agent-under-test entrypoint (Autex reliability agent + MPAE + Track 2 budget guard).",
+  "dependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5"
+  }
+}

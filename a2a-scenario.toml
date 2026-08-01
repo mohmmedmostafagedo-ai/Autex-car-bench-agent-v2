@@ -1,0 +1,22 @@
+[evaluator]
+endpoint = "http://evaluator:9009"
+
+[agent_under_test]
+endpoint = "http://agent-under-test:9009"
+
+[run]
+source_scenario = "/workspaces/Autex-car-bench-agent-v2/scenario.toml"
+scenario_name = "Autex-car-bench-agent-v2/scenario"
+agent_name = "Autex-car-bench-agent-v2"
+
+[run.agent_metadata]
+AGENT_LLM = "${AGENT_LLM:?Set AGENT_LLM}"
+AGENT_REASONING_EFFORT = "${AGENT_REASONING_EFFORT:-}"
+
+[config]
+num_trials = 1
+task_split = "train"
+tasks_base_num_tasks = 1
+tasks_hallucination_num_tasks = 1
+tasks_disambiguation_num_tasks = 1
+max_steps = 50
