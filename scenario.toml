@@ -11,7 +11,7 @@ LOGURU_LEVEL = "${LOGURU_LEVEL:-INFO}"
 #   docker buildx build --platform linux/amd64 -t ghcr.io/your-org/autex-carbench-agent:latest .
 #   docker push ghcr.io/your-org/autex-carbench-agent:latest
 #   docker inspect --format='{{index .RepoDigests 0}}' ghcr.io/your-org/autex-carbench-agent:latest
-image = "ghcr.io/mohmmedmostafagedo-ai/autex-car-bench-agent-v2@sha256:a52aec44ce071441732a7412e6fe08fa5b16ffe5ba2806d35e1b18dec2593d2f"
+image = "ghcr.io/mohmmedmostafagedo-ai/autex-car-bench-agent-v2@sha256:86bc852efc3953fb5fa6459cb2b7178e714a680e19806f3028fd1e64d5ece41b"
 
 
 [agent_under_test.env]
@@ -33,8 +33,10 @@ LOGURU_LEVEL = "${LOGURU_LEVEL:-INFO}"
 
 [config]
 num_trials = 1
-task_split = "train"   # or "test" — not "hidden"
+task_split = "train"
 tasks_base_num_tasks = 1
 tasks_hallucination_num_tasks = 1
 tasks_disambiguation_num_tasks = 1
 max_steps = 50
+user_model = "gemini/gemini-3.5-flash"
+policy_evaluator_model = "gemini/gemini-3.5-flash"

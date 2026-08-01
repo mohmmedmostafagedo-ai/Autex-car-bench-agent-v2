@@ -20,3 +20,5 @@ tasks_base_num_tasks = 1
 tasks_hallucination_num_tasks = 1
 tasks_disambiguation_num_tasks = 1
 max_steps = 50
+user_model = "gemini/gemini-3.5-flash"
+policy_evaluator_model = "gemini/gemini-3.5-flash"

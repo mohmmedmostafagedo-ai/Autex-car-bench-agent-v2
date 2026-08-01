@@ -24,7 +24,7 @@ services:
       - agent-network
 
   agent-under-test:
-    image: ghcr.io/mohmmedmostafagedo-ai/autex-car-bench-agent-v2@sha256:a52aec44ce071441732a7412e6fe08fa5b16ffe5ba2806d35e1b18dec2593d2f
+    image: ghcr.io/mohmmedmostafagedo-ai/autex-car-bench-agent-v2@sha256:86bc852efc3953fb5fa6459cb2b7178e714a680e19806f3028fd1e64d5ece41b
     platform: linux/amd64
     command: ["--host", "0.0.0.0", "--port", "9009", "--card-url", "http://agent-under-test:9009"]
     environment:
