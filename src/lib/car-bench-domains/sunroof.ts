@@ -10,7 +10,7 @@ import {
 } from './shared';
 
 function includesSunroofIntent(message: string) {
-  return /sunroof|fresh air|roof/i.test(message);
+  return / sunroof|fresh air|roof|\bvent(ing)?\b|air out|circulate.*air/i.test(message);
 }
 
 function isRainy(condition?: string) {
